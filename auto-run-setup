@@ -13,3 +13,39 @@
 - Configuration of core features and modules
 - User account and security setup
 - Finalization and launch of Sectool+1 environment
+
+# Debug Configuration
+
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "cppdbg",
+      "request": "launch",
+      "name": "Debug win98_sectool_setup",
+      "program": "${workspaceFolder}/win98-sectool-setup/win98_sectool_setup",
+      "cwd": "${workspaceFolder}/win98-sectool-setup",
+      "stopAtEntry": true,
+      "preLaunchTask": "build win98_sectool_setup"
+    }
+  ]
+}
+
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build win98_sectool_setup",
+      "type": "shell",
+      "command": "make",
+      "options": {
+        "cwd": "${workspaceFolder}/win98-sectool-setup"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}
