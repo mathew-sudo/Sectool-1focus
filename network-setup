@@ -21,3 +21,93 @@
 - Subnet configuration and management
 - Stealth connect mode for secure and hidden connections
 - Add and manage subnet masks for advanced networking
+
+## Flask SQLAlchemy Integration
+- Support for Flask-SQLAlchemy database management
+- Centralized settings and configuration for database connections
+- Easy integration with network configuration modules
+- **Authorization access and credential risk mitigation:**  
+  Use environment variables for sensitive credentials and never hardcode secrets in code.
+
+## Settings & Config
+- Centralized configuration management for all network features
+- Environment-based settings (development, production, etc.)
+- Secure storage of sensitive configuration values
+
+## VNC Server
+- Install and configure TigerVNC server for remote desktop access
+- Customizable xstartup script for session management
+- Secure VNC password setup and access control
+
+# Installation and Setup Script
+
+```sh
+echo "Installing VNC server..."
+pkg install tigervnc -y
+if [ $? -eq 0 ]; then
+    echo "TigerVNC server installed successfully."
+else
+    echo "Error installing TigerVNC server."
+fi
+echo ""
+
+echo "Setting up VNC server configuration..."
+mkdir -p $HOME/.vnc
+cat > $HOME/.vnc/xstartup << 'EOF'
+#!/data/data/com.termux/files/usr/bin/sh
+export DISPLAY=:1
+[ -x /data/data/com.termux/files/usr/bin/lxsession ] && lxsession &
+[ -x /data/data/com.termux/files/usr/bin/startxfce4 ] && startxfce4 &
+EOF
+chmod +x $HOME/.vnc/xstartup
+echo "VNC xstartup script created."
+echo ""
+
+echo "Set a secure VNC password (do not use default or weak passwords):"
+vncpasswd
+
+echo "Installing Flask and Flask-SQLAlchemy..."
+pkg install python -y && pip install flask flask_sqlalchemy
+if [ $? -eq 0 ]; then
+    echo "Flask and Flask-SQLAlchemy installed successfully."
+else
+    echo "Error installing Flask and Flask-SQLAlchemy."
+fi
+echo ""
+
+# Flask SQLAlchemy Settings & Config Example
+cat > flask_sqlalchemy_config.py << 'EOF'
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+import os
+
+app = Flask(__name__)
+# Use environment variable for DB URI to avoid hardcoding credentials
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SECTOOL1_DB_URI', 'sqlite:///sectool1.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
+def get_authorized_access(user, password):
+    # Use environment variables for credentials to reduce credential risk
+    authorized_users = {
+        os.environ.get('ADMIN_USER', 'admin'): os.environ.get('ADMIN_PASS', 'changeme'),
+        'root': os.environ.get('ROOT_PASS', 'rootpass'),
+        'sectool': os.environ.get('SECTOOL_PASS', 'sectoolpass')
+    }
+    # WARNING: Never store real credentials in code. Use secure storage in production.
+    return authorized_users.get(user) == password
+
+if __name__ == "__main__":
+    test_user = os.environ.get('TEST_USER', 'admin')
+    test_pass = os.environ.get('TEST_PASS', 'changeme')
+    print("Flask SQLAlchemy config loaded. Example authorized access for '{}': {}".format(
+        test_user, get_authorized_access(test_user, test_pass)))
+EOF
+
+echo "Flask SQLAlchemy configuration file created: flask_sqlalchemy_config.py"
+echo ""
+
+# Start VNC server (example usage)
+# vncserver :1 -geometry 1280x720 -localhost
+```

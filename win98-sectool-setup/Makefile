@@ -4,6 +4,8 @@ SRC = src/main.c src/setup/auto_setup.c src/win98_core/os_init.c src/sectool_plu
 OBJ = $(SRC:.c=.o)
 TARGET = win98_sectool_setup
 
+.PHONY: all clean
+
 all: $(TARGET)
 
 $(TARGET): $(OBJ)

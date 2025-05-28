@@ -1,63 +1,75 @@
 # Windows 98 Display Setup
+
 - Classic Windows 98 style display
 - Start menu and taskbar
 - Windowed application support
 
-# Core OS Components
+## Core OS Components
+
 - Kernel initialization
 - Device driver loading
 - System services management
 
-# System Configuration
+## System Configuration
+
 - Control Panel access
 - Network and user settings
 - Hardware profiles
 
-# Core Utilities
+## Core Utilities
+
 - Command prompt and basic shell tools
 - Disk management utilities (format, defrag, scandisk)
 - Clipboard and print management
 - System information tools
 
-# Maintenance Systems
+## Maintenance Systems
+
 - System backup and restore
 - Disk cleanup and optimization
 - Scheduled tasks and maintenance wizards
 - Error reporting and troubleshooting tools
 
-# File Management
+## File Management
+
 - Windows Explorer style file manager
 - File copy, move, delete, and rename operations
 - Support for folders and shortcuts
 
-# Graphical User Interface (GUI)
+## Graphical User Interface (GUI)
+
 - Desktop environment with icons
 - Window management (minimize, maximize, close)
 - Dialog boxes and menus
 
-# System GSettings GUI
+## System GSettings GUI
+
 - Graphical interface for system settings
 - Manage appearance, accessibility, and personalization
 - Easy access to configuration options
 
-# Security Settings
+## Security Settings
+
 - User account management
 - Password and authentication settings
 - System update and patch management
 - Firewall and network security controls
 
-# Security Tunneling Protocol
+## Security Tunneling Protocol
+
 - Secure communication channels for remote access
 - Support for VPN and encrypted tunnels
 - Integration with system authentication
 
-# Subprocess & Processor Management (Termux)
+## Subprocess & Processor Management (Termux)
+
 - Utilities for managing and running subprocesses in Termux terminal
 - Process monitoring and control tools
 - Support for executing background and foreground tasks
 - Integration with Termux process utilities (ps, top, kill, etc.)
 
-# Windows 98 Virtual Machine Overlay with Full GUI
+## Windows 98 Virtual Machine Overlay with Full GUI
+
 - Emulated Windows 98 environment with complete graphical interface
 - Full-featured desktop, start menu, and taskbar
 - Support for running legacy Windows 98 applications
