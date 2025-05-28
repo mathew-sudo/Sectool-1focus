@@ -1,0 +1,23 @@
+# Network Setup
+
+## IPv4 / IPv6 Support
+- Configure and manage IPv4 and IPv6 addresses
+- Dual-stack networking capabilities
+- Automatic and manual IP assignment
+
+## Network Configuration
+- Set up network interfaces and adapters
+- Configure DNS, gateway, and routing options
+- Proxy and advanced network settings
+
+## WiFi Setup
+- Scan and connect to wireless networks
+- Manage WiFi profiles and security settings
+- Support for WPA/WPA2/WPA3 and legacy protocols
+- Support for WPS1, WPS2, and WPS3 standards
+
+## Network Mask & IP Address
+- Set custom network masks and IP addresses
+- Subnet configuration and management
+- Stealth connect mode for secure and hidden connections
+- Add and manage subnet masks for advanced networking

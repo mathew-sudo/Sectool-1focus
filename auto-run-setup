@@ -1,0 +1,15 @@
+# Auto-Run Setup
+
+## Windows 98 Setup
+- Automatically launches Windows 98 setup program on boot
+- Step-by-step installation wizard
+- Hardware detection and driver installation
+- Partition and format disk options
+- Regional and user settings configuration
+
+## Sectool+1 Setup
+- Guided installation process for Sectool+1
+- Environment and dependency checks
+- Configuration of core features and modules
+- User account and security setup
+- Finalization and launch of Sectool+1 environment
