@@ -1,6 +1,13 @@
 #include "os_init.h"
 
-void os_initialize() {
+// Forward declarations for missing functions
+void setup_memory();
+void initialize_hardware();
+void load_drivers();
+void initialize_file_system();
+void prepare_application_environment();
+
+int os_init() {
     // Set up memory management
     setup_memory();
 
@@ -15,4 +22,7 @@ void os_initialize() {
 
     // Prepare the environment for applications
     prepare_application_environment();
+
+    // Return 0 for success, non-zero for failure (placeholder)
+    return 0;
 }

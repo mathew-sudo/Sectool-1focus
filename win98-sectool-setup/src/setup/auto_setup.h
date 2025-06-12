@@ -1,7 +1,7 @@
 #ifndef AUTO_SETUP_H
 #define AUTO_SETUP_H
 
-void initialize_sectool_plus1();
+int auto_setup();
 void configure_components();
 void install_dependencies();
 
