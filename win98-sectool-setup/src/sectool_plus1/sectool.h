@@ -5,5 +5,6 @@
 void initialize_sectool();
 void run_sectool_analysis();
 void display_sectool_results();
+void add_firewall_rule(int port, bool allow);
 
 #endif // SECTOOL_H

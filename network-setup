@@ -1,58 +1,26 @@
 #!/bin/bash
-# Network Setup
+# Network Setup Script
 
-## IPv4 / IPv6 Support
-- Configure and manage IPv4 and IPv6 addresses
-- Dual-stack networking capabilities
-- Automatic and manual IP assignment
+echo "=== Network Setup: IPv4/IPv6, WiFi, VNC, Flask SQLAlchemy ==="
 
-## Network Configuration
-- Set up network interfaces and adapters
-- Configure DNS, gateway, and routing options
-- Proxy and advanced network settings
+# IPv4/IPv6 configuration (example)
+echo "Configuring IPv4/IPv6 networking..."
+# (Add your actual configuration commands here)
 
-## WiFi Setup
-- Scan and connect to wireless networks
-- Manage WiFi profiles and security settings
-- Support for WPA/WPA2/WPA3 and legacy protocols
-- Support for WPS1, WPS2, and WPS3 standards
+# WiFi Setup (example)
+echo "Setting up WiFi..."
+# (Add your WiFi setup commands here)
 
-## Network Mask & IP Address
-- Set custom network masks and IP addresses
-- Subnet configuration and management
-- Stealth connect mode for secure and hidden connections
-- Add and manage subnet masks for advanced networking
-
-## Flask SQLAlchemy Integration
-- Support for Flask-SQLAlchemy database management
-- Centralized settings and configuration for database connections
-- Easy integration with network configuration modules
-- **Authorization access and credential risk mitigation:**  
-  Use environment variables for sensitive credentials and never hardcode secrets in code.
-
-## Settings & Config
-- Centralized configuration management for all network features
-- Environment-based settings (development, production, etc.)
-- Secure storage of sensitive configuration values
-
-## VNC Server
-- Install and configure TigerVNC server for remote desktop access
-- Customizable xstartup script for session management
-- Secure VNC password setup and access control
-
-# Installation and Setup Script
-
-```sh
-echo "Installing VNC server..."
+# VNC Server Setup
+echo "Installing TigerVNC server..."
 pkg install tigervnc -y
 if [ $? -eq 0 ]; then
     echo "TigerVNC server installed successfully."
 else
     echo "Error installing TigerVNC server."
 fi
-echo ""
 
-echo "Setting up VNC server configuration..."
+echo "Configuring VNC server..."
 mkdir -p $HOME/.vnc
 cat > $HOME/.vnc/xstartup << 'EOF'
 #!/data/data/com.termux/files/usr/bin/sh
@@ -62,16 +30,48 @@ export DISPLAY=:1
 EOF
 chmod +x $HOME/.vnc/xstartup
 echo "VNC xstartup script created."
-echo ""
 
-echo "Set a secure VNC password (do not use default or weak passwords):"
+echo "Set a secure VNC password:"
 vncpasswd
 
+# Flask SQLAlchemy Integration
 echo "Installing Flask and Flask-SQLAlchemy..."
 pkg install python -y && pip install flask flask_sqlalchemy
 if [ $? -eq 0 ]; then
     echo "Flask and Flask-SQLAlchemy installed successfully."
 else
+    echo "Error installing Flask and Flask-SQLAlchemy."
+fi
+
+cat > flask_sqlalchemy_config.py << 'EOF'
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+import os
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SECTOOL1_DB_URI', 'sqlite:///sectool1.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
+def get_authorized_access(user, password):
+    authorized_users = {
+        os.environ.get('ADMIN_USER', 'admin'): os.environ.get('ADMIN_PASS', 'changeme'),
+        'root': os.environ.get('ROOT_PASS', 'rootpass'),
+        'sectool': os.environ.get('SECTOOL_PASS', 'sectoolpass')
+    }
+    return authorized_users.get(user) == password
+
+if __name__ == "__main__":
+    test_user = os.environ.get('TEST_USER', 'admin')
+    test_pass = os.environ.get('TEST_PASS', 'changeme')
+    print("Flask SQLAlchemy config loaded. Example authorized access for '{}': {}".format(
+        test_user, get_authorized_access(test_user, test_pass)))
+EOF
+
+echo "Flask SQLAlchemy configuration file created: flask_sqlalchemy_config.py"
+
+echo "=== Network setup complete ==="
     echo "Error installing Flask and Flask-SQLAlchemy."
 fi
 echo ""

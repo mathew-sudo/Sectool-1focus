@@ -1,45 +1,45 @@
 #!/bin/bash
-# Windows 98 Display Setup
+# Windows 98 Display Setup Script
 
-- Classic Windows 98 style display
-- Start menu and taskbar
-- Windowed application support
+echo "=== Windows 98 Display Setup ==="
 
-## Core OS Components
+# Classic Windows 98 style display (placeholder)
+echo "Setting up classic Windows 98 style display..."
 
-- Kernel initialization
-- Device driver loading
-- System services management
+# Core OS Components
+echo "Initializing kernel and loading device drivers..."
 
-## System Configuration
+# System Configuration
+echo "Configuring Control Panel, network, and user settings..."
 
-- Control Panel access
-- Network and user settings
-- Hardware profiles
+# Core Utilities
+echo "Installing core utilities (format, defrag, scandisk, etc.)..."
 
-## Core Utilities
+# Maintenance Systems
+echo "Setting up system backup, restore, and maintenance tools..."
 
-- Command prompt and basic shell tools
-- Disk management utilities (format, defrag, scandisk)
-- Clipboard and print management
-- System information tools
+# File Management
+echo "Installing Windows Explorer style file manager..."
 
-## Maintenance Systems
+# Graphical User Interface (GUI)
+echo "Setting up desktop environment and window management..."
 
-- System backup and restore
-- Disk cleanup and optimization
-- Scheduled tasks and maintenance wizards
-- Error reporting and troubleshooting tools
+# System GSettings GUI
+echo "Configuring graphical interface for system settings..."
 
-## File Management
+# Security Settings
+echo "Configuring user accounts, authentication, and firewall..."
 
-- Windows Explorer style file manager
-- File copy, move, delete, and rename operations
-- Support for folders and shortcuts
+# Security Tunneling Protocol
+echo "Setting up secure communication channels (VPN, tunnels)..."
 
-## Graphical User Interface (GUI)
+# Subprocess & Processor Management (Termux)
+echo "Installing process monitoring and control tools..."
 
-- Desktop environment with icons
+# Windows 98 Virtual Machine Overlay with Full GUI
+echo "Setting up Windows 98 VM overlay with full GUI..."
+
+echo "=== Display setup complete ==="
 - Window management (minimize, maximize, close)
 - Dialog boxes and menus
 

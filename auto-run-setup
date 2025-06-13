@@ -1,83 +1,83 @@
 #!/bin/bash
-# Auto-Run Setup
+# Auto-Run Setup Script for Win98-Sectool+1
 
-## Windows 98 Setup
+echo "=== Auto-Run Setup: Windows 98 & Sectool+1 ==="
 
-- Automatically launches Windows 98 setup program on boot
-- Step-by-step installation wizard
-- Hardware detection and driver installation
-- Partition and format disk options
-- Regional and user settings configuration
+# Windows 98 Setup (placeholder)
+echo "Launching Windows 98 setup program (simulated)..."
+# (Insert actual setup commands if available)
 
-## Sectool+1 Setup
+# Sectool+1 Setup
+echo "Guided installation for Sectool+1..."
+# (Insert actual setup commands if available)
 
-- Guided installation process for Sectool+1
-- Environment and dependency checks
-- Configuration of core features and modules
-- User account and security setup
-- Finalization and launch of Sectool+1 environment
+# VNC Server Setup
+echo "Installing TigerVNC server..."
+pkg install tigervnc -y
+if [ $? -eq 0 ]; then
+    echo "TigerVNC server installed successfully."
+else
+    echo "Error installing TigerVNC server."
+fi
 
-## Debug Configuration
+echo "Configuring VNC server..."
+mkdir -p $HOME/.vnc
+cat > $HOME/.vnc/xstartup << 'EOF'
+#!/data/data/com.termux/files/usr/bin/sh
+export DISPLAY=:1
+[ -x /data/data/com.termux/files/usr/bin/lxsession ] && lxsession &
+[ -x /data/data/com.termux/files/usr/bin/startxfce4 ] && startxfce4 &
+EOF
+chmod +x $HOME/.vnc/xstartup
+echo "VNC xstartup script created."
 
-{
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "type": "cppdbg",
-      "request": "launch",
-      "name": "Debug win98_sectool_setup",
-      "program": "${workspaceFolder}/win98-sectool-setup/win98_sectool_setup",
-      "cwd": "${workspaceFolder}/win98-sectool-setup",
-      "stopAtEntry": true,
-      "preLaunchTask": "build win98_sectool_setup"
+echo "Set a secure VNC password:"
+vncpasswd
+
+# Flask SQLAlchemy Integration
+echo "Installing Flask and Flask-SQLAlchemy..."
+pkg install python -y && pip install flask flask_sqlalchemy
+if [ $? -eq 0 ]; then
+    echo "Flask and Flask-SQLAlchemy installed successfully."
+else
+    echo "Error installing Flask and Flask-SQLAlchemy."
+fi
+
+cat > flask_sqlalchemy_config.py << 'EOF'
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+import os
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SECTOOL1_DB_URI', 'sqlite:///sectool1.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
+def get_authorized_access(user, password):
+    authorized_users = {
+        os.environ.get('ADMIN_USER', 'admin'): os.environ.get('ADMIN_PASS', 'changeme'),
+        'root': os.environ.get('ROOT_PASS', 'rootpass'),
+        'sectool': os.environ.get('SECTOOL_PASS', 'sectoolpass')
     }
-  ]
-}
+    return authorized_users.get(user) == password
 
-{
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "build win98_sectool_setup",
-      "type": "shell",
-      "command": "make",
-      "options": {
-        "cwd": "${workspaceFolder}/win98-sectool-setup"
-      },
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "problemMatcher": ["$gcc"]
-    }
-  ]
-}
+if __name__ == "__main__":
+    test_user = os.environ.get('TEST_USER', 'admin')
+    test_pass = os.environ.get('TEST_PASS', 'changeme')
+    print("Flask SQLAlchemy config loaded. Example authorized access for '{}': {}".format(
+        test_user, get_authorized_access(test_user, test_pass)))
+EOF
 
-## Network Setup
+echo "Flask SQLAlchemy configuration file created: flask_sqlalchemy_config.py"
 
-## IPv4 / IPv6 Support
+# Sectool+1 Environment Initialization
+echo "Initializing Sectool+1 environment..."
+mkdir -p $HOME/sectool
+mkdir -p $HOME/sectool/config
+echo "Sectool+1 environment initialized at $HOME/sectool"
 
-- Configure and manage IPv4 and IPv6 addresses
-- Dual-stack networking capabilities
-- Automatic and manual IP assignment
-
-## Network Configuration
-
--
-- Set up network interfaces and adapters
-- Configure DNS, gateway, and routing options
-- Proxy and advanced network settings
-
-## WiFi Setup
-
-- Scan and connect to wireless networks
-- Manage WiFi profiles and security settings
-- Support for WPA/WPA2/WPA3 and legacy protocols
-- Support for WPS1, WPS2, and WPS3 standards
-
-## Network Mask & IP Address
-
-- Set custom network masks and IP addresses
+echo "=== Auto-run setup complete ==="
 - Subnet configuration and management
 - Stealth connect mode for secure and hidden connections
 - Add and manage subnet masks for advanced networking
