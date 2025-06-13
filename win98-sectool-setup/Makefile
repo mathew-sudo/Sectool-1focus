@@ -1,4 +1,4 @@
-#!	/bin/bash
+#!/bin/bash
 CC = gcc
 CFLAGS = -Wall -I./src/setup -I./src/win98_core -I./src/sectool_plus1
 SRC = src/main.c src/setup/auto_setup.c src/win98_core/os_init.c src/sectool_plus1/sectool.c

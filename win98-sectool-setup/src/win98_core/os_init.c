@@ -1,4 +1,5 @@
 #include "os_init.h"
+#include <stdio.h>
 
 // Forward declarations for missing functions
 void setup_memory();
@@ -7,22 +8,22 @@ void load_drivers();
 void initialize_file_system();
 void prepare_application_environment();
 
+// Improved: Add security system initialization
+void initialize_firewall_system();
+
 int os_init() {
-    // Set up memory management
+    printf("[Win98 OS] Initializing core OS...\n");
     setup_memory();
-
-    // Initialize hardware components
     initialize_hardware();
-
-    // Load system drivers
     load_drivers();
-
-    // Set up the file system
     initialize_file_system();
-
-    // Prepare the environment for applications
     prepare_application_environment();
-
-    // Return 0 for success, non-zero for failure (placeholder)
+    initialize_firewall_system();
+    printf("[Win98 OS] Initialization complete.\n");
     return 0;
+}
+
+// New: Initialize firewall system (placeholder)
+void initialize_firewall_system() {
+    printf("[Win98 OS] Firewall system initialized.\n");
 }
