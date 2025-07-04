@@ -1,6 +1,8 @@
 #ifndef AUTO_SETUP_H
 #define AUTO_SETUP_H
 
+#include <stdbool.h>
+
 int auto_setup();
 bool configure_components();
 bool install_dependencies();

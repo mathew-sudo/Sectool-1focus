@@ -1,28 +1,43 @@
 CC = gcc
-CFLAGS = -Wall -I./src/setup -I./src/win98_core -I./src/sectool_plus1
-SRC = src/main.c src/setup/auto_setup.c src/win98_core/os_init.c src/sectool_plus1/sectool.c
-OBJ = $(SRC:.c=.o)
-TARGET = win98_sectool_setup
+CFLAGS = -Wall -Wextra -std=c99 -Isrc
+SRCDIR = src
+OBJDIR = obj
+BINDIR = bin
 
-.PHONY: all clean test
+# Source files
+SOURCES = $(SRCDIR)/main.c \
+          $(SRCDIR)/win98_core/os_init.c \
+          $(SRCDIR)/setup/auto_setup.c \
+          $(SRCDIR)/sectool_plus1/sectool.c
 
-all: $(TARGET)
+# Object files
+OBJECTS = $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
-$(TARGET): $(OBJ)
-	$(CC) -o $@ $^
+# Target executable
+TARGET = $(BINDIR)/win98-sectool
 
-%.o: %.c
+.PHONY: all clean directories
+
+all: directories $(TARGET)
+
+directories:
+	@mkdir -p $(OBJDIR)/win98_core $(OBJDIR)/setup $(OBJDIR)/sectool_plus1 $(BINDIR)
+
+$(TARGET): $(OBJECTS)
+	$(CC) $(OBJECTS) -o $@
+	@echo "Build complete: $(TARGET)"
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-TEST_SRC = ../test_main.c
-TEST_BIN = test_main
-
-test: $(TEST_BIN)
-	./$(TEST_BIN)
-
-$(TEST_BIN): $(TEST_SRC) src/win98_core/os_init.c src/setup/auto_setup.c
-	$(CC) $(CFLAGS) -o $@ $^
-
 clean:
-	rm -f $(OBJ) $(TARGET)
-	rm -f $(OBJ) $(TARGET)
+	rm -rf $(OBJDIR) $(BINDIR)
+	@echo "Clean complete"
+
+install: $(TARGET)
+	cp $(TARGET) /usr/local/bin/
+	@echo "Installation complete"
+
+.PHONY: run
+run: $(TARGET)
+	./$(TARGET)

@@ -1,6 +1,8 @@
 #ifndef OS_INIT_H
 #define OS_INIT_H
 
+#include <stdbool.h>
+
 int os_init();
 void os_shutdown();
 

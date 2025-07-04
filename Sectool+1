@@ -1,8 +1,30 @@
 #!/bin/bash
+# Sectool+1 Installer Script for Termux
+# This script is designed to automate the setup of a security tool environment in Termux
+
 echo "====================================="
 echo "Termux Security Tool Installer"
 echo "====================================="
 echo ""
+
+# Initialize error log
+ERROR_LOG="install_errors.log"
+> "$ERROR_LOG"
+
+# Enhanced logging function
+log_install() {
+    local tool="$1"
+    local success="$2"
+    local error_msg="$3"
+    
+    if [ "$success" = "true" ]; then
+        echo "✓ $tool installed successfully."
+    else
+        echo "✗ Error installing $tool." | tee -a "$ERROR_LOG"
+        [ -n "$error_msg" ] && echo "  Error: $error_msg" | tee -a "$ERROR_LOG"
+    fi
+    echo ""
+}
 
 echo "Updating package lists..."
 pkg update -y
@@ -36,13 +58,36 @@ echo ""
 install_pkg_tool() {
     local tool="$1"
     echo "Installing $tool..."
-    pkg install "$tool" -y
-    if [ $? -eq 0 ]; then
-        echo "$tool installed successfully."
+    if pkg install "$tool" -y >/dev/null 2>&1; then
+        log_install "$tool" "true"
+        return 0
     else
-        echo "Error installing $tool." | tee -a install_errors.log
+        log_install "$tool" "false" "Package installation failed"
+        return 1
     fi
-    echo ""
+}
+
+# Enhanced git clone function
+install_git_tool() {
+    local tool="$1"
+    local repo_url="$2"
+    local post_install="$3"
+    
+    echo "Installing $tool..."
+    if git clone "$repo_url" >/dev/null 2>&1; then
+        if [ -n "$post_install" ]; then
+            eval "$post_install" >/dev/null 2>&1
+            if [ $? -eq 0 ]; then
+                log_install "$tool" "true"
+            else
+                log_install "$tool" "false" "Post-install commands failed"
+            fi
+        else
+            log_install "$tool" "true"
+        fi
+    else
+        log_install "$tool" "false" "Git clone failed"
+    fi
 }
 
 # Array of tools to install only once (no custom logic required)
@@ -57,67 +102,35 @@ done
 # Custom install logic for tools that require more than pkg install
 
 # Installing Metasploit Framework...
-pkg install unstable-repo -y && pkg install metasploit -y
-if [ $? -eq 0 ]; then
-    echo "Metasploit Framework installed successfully."
+echo "Installing Metasploit Framework..."
+if pkg install unstable-repo -y && pkg install metasploit -y; then
+    log_install "Metasploit Framework" "true"
 else
-    echo "Error installing Metasploit Framework."
+    log_install "Metasploit Framework" "false" "Package installation failed"
 fi
-echo ""
 
 # Installing Kraken...
-pkg install git python -y && git clone https://github.com/Kraken-Project/Kraken.git && cd Kraken && pip install -r requirements.txt && cd ..
-if [ $? -eq 0 ]; then
-    echo "Kraken installed successfully."
-else
-    echo "Error installing Kraken." | tee -a install_errors.log
-fi
-echo ""
+install_git_tool "Kraken" "https://github.com/Kraken-Project/Kraken.git" "cd Kraken && pip install -r requirements.txt && cd .."
 
 # Installing Wifite...
-pkg install git python -y && git clone https://github.com/derv82/wifite2.git && cd wifite2 && pip install -r requirements.txt && cd ..
-if [ $? -eq 0 ]; then
-    echo "Wifite installed successfully."
-else
-    echo "Error installing Wifite." | tee -a install_errors.log
-fi
-echo ""
+install_git_tool "Wifite" "https://github.com/derv82/wifite2.git" "cd wifite2 && pip install -r requirements.txt && cd .."
 
 # Installing Nikto...
-pkg install perl -y && cpan install Net::SSLeay && git clone https://github.com/sullo/nikto.git
-if [ $? -eq 0 ]; then
-    echo "Nikto installed successfully."
+echo "Installing Nikto..."
+if pkg install perl -y && cpan install Net::SSLeay && git clone https://github.com/sullo/nikto.git; then
+    log_install "Nikto" "true"
 else
-    echo "Error installing Nikto." | tee -a install_errors.log
+    log_install "Nikto" "false" "Perl dependencies or git clone failed"
 fi
-echo ""
 
 # Installing Slowloris...
-pkg install git python -y && git clone https://github.com/gkbrk/slowloris.git
-if [ $? -eq 0 ]; then
-    echo "Slowloris installed successfully."
-else
-    echo "Error installing Slowloris." | tee -a install_errors.log
-fi
-echo ""
+install_git_tool "Slowloris" "https://github.com/gkbrk/slowloris.git"
 
 # Installing BeEF XSS Framework...
-pkg install git ruby -y && git clone https://github.com/beefproject/beef.git && cd beef && bundle install
-if [ $? -eq 0 ]; then
-    echo "BeEF XSS Framework installed successfully."
-else
-    echo "Error installing BeEF XSS Framework." | tee -a install_errors.log
-fi
-echo ""
+install_git_tool "BeEF XSS Framework" "https://github.com/beefproject/beef.git" "cd beef && bundle install"
 
 # Installing Commix...
-pkg install git python -y && git clone https://github.com/commixproject/commix.git
-if [ $? -eq 0 ]; then
-    echo "Commix installed successfully."
-else
-    echo "Error installing Commix." | tee -a install_errors.log
-fi
-echo ""
+install_git_tool "Commix" "https://github.com/commixproject/commix.git"
 
 # Installing Reaver...
 pkg install reaver -y
@@ -930,14 +943,47 @@ fi
 echo ""
 
 # At the end, print a summary of failed installs if any
-if [ -f install_errors.log ]; then
+if [ -s "$ERROR_LOG" ]; then
     echo "====================================="
     echo "Some tools failed to install:"
-    cat install_errors.log
+    cat "$ERROR_LOG"
     echo "Please review the errors above."
     echo "====================================="
 else
     echo "All tools installed successfully!"
+    rm -f "$ERROR_LOG"
+fi
+
+# Cleaning up
+pkg clean
+echo ""
+echo "====================================="
+echo "Installation complete!"
+echo "====================================="
+else
+    echo "Error installing Patator."
+fi
+echo ""
+
+# Installing THC Hydra GUI...
+pkg install git -y && pkg install python -y && git clone https://github.com/KALILINUXTRICKSYT/eashydra.git && cd eashydra && pip install -r requirements.txt
+if [ $? -eq 0 ]; then
+    echo "THC Hydra GUI installed successfully."
+else
+    echo "Error installing THC Hydra GUI."
+fi
+echo ""
+
+# At the end, print a summary of failed installs if any
+if [ -s "$ERROR_LOG" ]; then
+    echo "====================================="
+    echo "Some tools failed to install:"
+    cat "$ERROR_LOG"
+    echo "Please review the errors above."
+    echo "====================================="
+else
+    echo "All tools installed successfully!"
+    rm -f "$ERROR_LOG"
 fi
 
 # Cleaning up

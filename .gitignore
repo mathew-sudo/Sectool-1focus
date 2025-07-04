@@ -1,0 +1,49 @@
+# Build artifacts
+win98-sectool-setup/obj/
+win98-sectool-setup/bin/
+*.o
+*.exe
+
+# Log files
+*.log
+install_errors.log
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Flask SQLAlchemy database
+sectool1.db
+flask_sqlalchemy_config.py
+
+# VNC files
+.vnc/passwd
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Downloaded packages
+*.apk
+*.zip
+supersu/
+twrp/
+lineage/
+magisk_modules/

@@ -1,5 +1,6 @@
 #!/bin/bash
 # Network Setup Script
+# This script is designed to automate the setup of network configurations, VNC server, and Flask SQLAlchemy integration.
 
 echo "=== Network Setup: IPv4/IPv6, WiFi, VNC, Flask SQLAlchemy ==="
 
@@ -49,17 +50,20 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 
 app = Flask(__name__)
+# Use environment variable for DB URI to avoid hardcoding credentials
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SECTOOL1_DB_URI', 'sqlite:///sectool1.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
 def get_authorized_access(user, password):
+    # Use environment variables for credentials to reduce credential risk
     authorized_users = {
         os.environ.get('ADMIN_USER', 'admin'): os.environ.get('ADMIN_PASS', 'changeme'),
         'root': os.environ.get('ROOT_PASS', 'rootpass'),
         'sectool': os.environ.get('SECTOOL_PASS', 'sectoolpass')
     }
+    # WARNING: Never store real credentials in code. Use secure storage in production.
     return authorized_users.get(user) == password
 
 if __name__ == "__main__":
@@ -71,14 +75,11 @@ EOF
 
 echo "Flask SQLAlchemy configuration file created: flask_sqlalchemy_config.py"
 
-echo "=== Network setup complete ==="
-    echo "Error installing Flask and Flask-SQLAlchemy."
-fi
-echo ""
+# Start VNC server (example usage)
+# vncserver :1 -geometry 1280x720 -localhost
 
-# Flask SQLAlchemy Settings & Config Example
-cat > flask_sqlalchemy_config.py << 'EOF'
-from flask import Flask
+echo "=== Network setup complete ==="
+echo "=== Network setup complete ==="
 from flask_sqlalchemy import SQLAlchemy
 import os
 

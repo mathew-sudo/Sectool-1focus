@@ -1,5 +1,7 @@
 #!/bin/bash
 # Windows 98 Display Setup Script
+# This script is designed to automate the setup of a Windows 98 display environment
+# in a Termux environment on Android devices.
 
 echo "=== Windows 98 Display Setup ==="
 
@@ -40,38 +42,3 @@ echo "Installing process monitoring and control tools..."
 echo "Setting up Windows 98 VM overlay with full GUI..."
 
 echo "=== Display setup complete ==="
-- Window management (minimize, maximize, close)
-- Dialog boxes and menus
-
-## System GSettings GUI
-
-- Graphical interface for system settings
-- Manage appearance, accessibility, and personalization
-- Easy access to configuration options
-
-## Security Settings
-
-- User account management
-- Password and authentication settings
-- System update and patch management
-- Firewall and network security controls
-
-## Security Tunneling Protocol
-
-- Secure communication channels for remote access
-- Support for VPN and encrypted tunnels
-- Integration with system authentication
-
-## Subprocess & Processor Management (Termux)
-
-- Utilities for managing and running subprocesses in Termux terminal
-- Process monitoring and control tools
-- Support for executing background and foreground tasks
-- Integration with Termux process utilities (ps, top, kill, etc.)
-
-## Windows 98 Virtual Machine Overlay with Full GUI
-
-- Emulated Windows 98 environment with complete graphical interface
-- Full-featured desktop, start menu, and taskbar
-- Support for running legacy Windows 98 applications
-- Seamless integration with host system for file and network access

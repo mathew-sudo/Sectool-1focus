@@ -32,10 +32,21 @@ bool install_dependencies() {
 // Improved: Install Sectool+1 with error handling and validation
 bool install_sectool() {
     printf("[AutoSetup] Installing Sectool+1...\n");
-    // Simulate installation logic
-    bool success = true;
-    log_step("Sectool+1 installation", success, success ? NULL : "Install error");
-    return success;
+    // Simulate installation logic with more realistic checks
+    bool config_exists = true; // Simulate config file check
+    bool deps_available = true; // Simulate dependency check
+    
+    if (!config_exists) {
+        log_step("Sectool+1 installation", false, "Configuration file missing");
+        return false;
+    }
+    if (!deps_available) {
+        log_step("Sectool+1 installation", false, "Required dependencies not found");
+        return false;
+    }
+    
+    log_step("Sectool+1 installation", true, NULL);
+    return true;
 }
 
 // Improved: Setup security algorithms/filters with error handling

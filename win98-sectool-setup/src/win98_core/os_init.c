@@ -1,29 +1,32 @@
 #include "os_init.h"
 #include <stdio.h>
+#include <stdlib.h>
 
-// Forward declarations for missing functions
-void setup_memory();
-void initialize_hardware();
-void load_drivers();
-void initialize_file_system();
-void prepare_application_environment();
-
-// Improved: Add security system initialization
-void initialize_firewall_system();
-
+// Initialize the Windows 98 core OS simulation
 int os_init() {
-    printf("[Win98 OS] Initializing core OS...\n");
-    setup_memory();
-    initialize_hardware();
-    load_drivers();
-    initialize_file_system();
-    prepare_application_environment();
+    printf("[OS_Init] Starting Windows 98 core OS initialization...\n");
+    
+    // Simulate hardware detection
+    printf("[OS_Init] Detecting hardware components...\n");
+    
+    // Simulate memory initialization
+    printf("[OS_Init] Initializing memory management...\n");
+    
+    // Initialize firewall system
     initialize_firewall_system();
-    printf("[Win98 OS] Initialization complete.\n");
+    
+    printf("[OS_Init] Windows 98 core OS initialized successfully.\n");
     return 0;
 }
 
-// New: Initialize firewall system (placeholder)
+// Shutdown the OS
+void os_shutdown() {
+    printf("[OS_Init] Shutting down Windows 98 core OS...\n");
+    printf("[OS_Init] System shutdown complete.\n");
+}
+
+// Initialize firewall system
 void initialize_firewall_system() {
-    printf("[Win98 OS] Firewall system initialized.\n");
+    printf("[OS_Init] Initializing firewall system...\n");
+    printf("[OS_Init] Firewall system ready.\n");
 }
